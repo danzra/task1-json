@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Display</title>
+</head>
+<body>
+    <div id="product-container"></div>
+
+    <script>
+        fetch('https://s3.amazonaws.com/open-to-cors/assignment.json')
+            .then(response => response.json())
+            .then(data => {
+                const products = Object.values(data.products);
+                const sortedProducts = products.sort((a, b) => b.popularity - a.popularity);
+                const container = document.getElementById('product-container');
+                
+                sortedProducts.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.innerHTML = `Title: ${product.title}, Price: ${product.price}, Popularity: ${product.popularity}`;
+                    container.appendChild(productElement);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
